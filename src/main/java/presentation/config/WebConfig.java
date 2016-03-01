@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 
 @Configuration
+@EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
@@ -39,7 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         AppCacheManifestTransformer appCacheTransformer = new AppCacheManifestTransformer();
         VersionResourceResolver versionResolver = new VersionResourceResolver()
-                .addFixedVersionStrategy(version, "/**/*.js", "/**/*.map")
+                .addFixedVersionStrategy(version, "/**/*.js", "/**/*.css")
                 .addContentVersionStrategy("/**");
 
         registry.addResourceHandler("/**")
