@@ -11,6 +11,7 @@
   "main": "",
   "dependencies": {
     "bower": "^1.4.0",
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.1"
   }
 }
