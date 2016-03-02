@@ -10,6 +10,7 @@
   "license": "MIT",
   "main": "",
   "dependencies": {
-    "bower": "^1.4.0"
+    "bower": "^1.4.0",
+    "gulp": "^3.8.11"
   }
 }
