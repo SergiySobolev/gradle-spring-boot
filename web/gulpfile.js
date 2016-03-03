@@ -2,7 +2,9 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     gclean = require('gulp-clean'),
     gFlatten = require('gulp-flatten'),
-    mainBowerFiles = require('main-bower-files')
+    mainBowerFiles = require('main-bower-files'),
+    gInject = require('gulp-inject'),
+    gDebug = require('gulp-debug')
 ;
 
 var paths = {
@@ -33,11 +35,20 @@ gulp.task('distVendors', function () {
         .pipe(gulp.dest(paths.distVendors));
 });
 
+gulp.task('index', function () {
+    var target = gulp.src(paths.src+'index.html');
+    var sources = gulp.src([paths.srcVendors + '/*.js'], {read: false});
+    return target
+        .pipe(gDebug())
+        .pipe(gInject(sources))
+        .pipe(gulp.dest(paths.src));
+});
+
 gulp.task('buildDist', ['html','distVendors'], function(){
   //  return gulp.log('Build dist');
 });
 
-gulp.task('build', ['clean', 'bower-files', 'buildDist'], function () {
+gulp.task('build', ['clean', 'bower-files', 'index', 'buildDist'], function () {
 });
 
 gulp.task('watch', function () {
