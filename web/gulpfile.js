@@ -8,14 +8,14 @@ var gulp = require('gulp'),
 var paths = {
     src: 'app/',
     dist: 'dist/',
-    vendors_dir: 'bower_components/',
-    vendors:['angular/angular.js', 'angular-resource/angular-resource.js']
+    srcVendors: 'app/vendors',
+    distVendors: 'dist/vendors'
 };
 
 gulp.task("bower-files", function(){
     gulp.src(mainBowerFiles())
         .pipe(gFlatten())
-        .pipe(gulp.dest("./app/vendors"));
+        .pipe(gulp.dest(paths.srcVendors));
 });
 
 gulp.task('clean', function(){
@@ -28,9 +28,18 @@ gulp.task('html', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', ['clean', 'bower-files'], function () {
+gulp.task('distVendors', function () {
+    gulp.src(paths.srcVendors + '/*.js')
+        .pipe(gulp.dest(paths.distVendors));
+});
+
+gulp.task('buildDist', ['html','distVendors'], function(){
+  //  return gulp.log('Build dist');
+});
+
+gulp.task('build', ['clean', 'bower-files', 'buildDist'], function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.src+'index.html', ['html']);
+    gulp.watch(paths.src+'index.html', ['buildDist']);
 });
