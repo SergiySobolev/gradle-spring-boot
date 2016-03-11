@@ -13,7 +13,7 @@ public class DevWebConfig extends WebConfig {
 
     @PostConstruct
     public void initDev() throws Exception {
-        location = "file:///" + getProjectRootRequired() + "/web/app/src/";
+        location = "file:///" + getProjectRootRequired() + "/web/dist/";
         cachePeriod = 0;
         useResourceCache = false;
         version = "dev";
