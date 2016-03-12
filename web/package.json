@@ -18,6 +18,8 @@
     "main-bower-files": "^2.11.1",
     "gulp-inject": "^3.0.0",
     "gulp-debug": "^2.1.2",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.1.5",
+    "gulp-angular-filesort": "^1.1.1",
+    "stream-series": "^0.1.1"
   }
 }

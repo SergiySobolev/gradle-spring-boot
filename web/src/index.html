@@ -1,22 +1,12 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>My index</title>
     <!-- inject:js -->
-    <script src="/dist/vendors/angular-cookies.js"></script>
-    <script src="/dist/vendors/angular-loader.js"></script>
-    <script src="/dist/vendors/angular-mocks.js"></script>
-    <script src="/dist/vendors/angular-resource.js"></script>
-    <script src="/dist/vendors/angular-route.js"></script>
-    <script src="/dist/vendors/angular-sanitize.js"></script>
-    <script src="/dist/vendors/angular-touch.js"></script>
-    <script src="/dist/vendors/angular.js"></script>
-    <script src="/dist/vendors/jquery.js"></script>
     <!-- endinject -->
 </head>
-<body ng-module="app">
-    <div ng-controller="MainController as main">
-        "test"  {{main.name}}
+<body ng-app="app">
+    <div ng-controller="MainController as vm">
+        {{vm.name}}
     </div>
 </body>
 </html>

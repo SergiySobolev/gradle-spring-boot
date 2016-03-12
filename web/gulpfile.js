@@ -5,14 +5,26 @@ var gulp = require('gulp'),
     mainBowerFiles = require('main-bower-files'),
     gInject = require('gulp-inject'),
     gDebug = require('gulp-debug'),
-    gRunSequence = require('run-sequence')
+    gRunSequence = require('run-sequence'),
+    gAngularFileSort = require('gulp-angular-filesort'),
+    series = require('stream-series')
 ;
 
 var paths = {
     any: '**/*',
     src: 'src/',
     dist: 'dist/',
-    distVendors: 'dist/vendors'
+    distVendors: 'dist/vendors',
+    distApp: 'dist/app'
+};
+
+var options = {
+    errorHandler: function(title) {
+        return function(err) {
+            gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+            this.emit('end');
+        };
+    }
 };
 
 
@@ -36,10 +48,11 @@ gulp.task('injectDist', [], function(){
         relative:true
     };
     var target = gulp.src(paths.dist+'index.html');
-    var sources = gulp.src(paths.dist + "**/*.js", {read: false});
+    var vendorSources = gulp.src(paths.distVendors + "**/*.js", {read: false});
+    var appSources = gulp.src(paths.distApp + "/**/*.js", {read: false});
     return target
         .pipe(gDebug())
-        .pipe(gInject(sources, injectOptions))
+        .pipe(gInject(series(vendorSources, appSources), injectOptions))
         .pipe(gulp.dest(paths.dist));
 });
 
