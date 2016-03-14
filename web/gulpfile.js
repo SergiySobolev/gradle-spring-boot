@@ -15,7 +15,7 @@ var gulp = require('gulp'),
 var paths = {
     any: '**/*',
     src: 'src/',
-    srcLess : 'src/less/',
+    srcLess : 'src/less',
     dist: 'dist/',
     distVendors: 'dist/vendors',
     distApp: 'dist/app',
@@ -43,7 +43,7 @@ gulp.task('clean', function(){
 
 gulp.task('buildDist', [], function(){
 
-    gulp.src([paths.src+paths.any, "!"+paths.srcLess+paths.any])
+    gulp.src([paths.src+paths.any, "!"+paths.srcLess+"{,/**}"], {dot:true})
         .pipe(gulp.dest(paths.dist));
 
     return gulp.src(mainBowerFiles())
@@ -52,7 +52,7 @@ gulp.task('buildDist', [], function(){
 });
 
 gulp.task('lessCompile', [], function(){
-    return gulp.src([paths.srcLess+"*.less", "!"+paths.srcLess+"variables.less"])
+    return gulp.src([paths.srcLess+"/*.less", "!"+paths.srcLess+"/variables.less"])
         .pipe(gLess())
         .pipe(gulp.dest(paths.distCss));
 });
