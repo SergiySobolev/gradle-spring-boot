@@ -6,8 +6,9 @@ var gulp = require('gulp'),
     gInject = require('gulp-inject'),
     gDebug = require('gulp-debug'),
     gRunSequence = require('run-sequence'),
-    gAngularFileSort = require('gulp-angular-filesort'),
-    series = require('stream-series')
+    angularFileSort = require('gulp-angular-filesort'),
+    series = require('stream-series'),
+    gPrint = require('gulp-print')
 ;
 
 var paths = {
@@ -48,16 +49,18 @@ gulp.task('injectDist', [], function(){
         relative:true
     };
     var target = gulp.src(paths.dist+'index.html');
-    var vendorSources = gulp.src(paths.distVendors + "**/*.js", {read: false});
-    var appSources = gulp.src(paths.distApp + "/**/*.js", {read: false});
+    var angularSource = gulp.src(paths.distVendors + "/angular.js");
+    var vendorSources = gulp.src([paths.distVendors + "**/*.js", "!dist/vendors/angular.js"], {read: false});
+    var appSources = gulp.src(paths.distApp + "/**/*.js");
+    vendorSources.pipe(gPrint());
     return target
         .pipe(gDebug())
-        .pipe(gInject(series(vendorSources, appSources), injectOptions))
+        .pipe(gInject(series(angularSource, vendorSources, appSources.pipe(angularFileSort())), injectOptions))
         .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('build', function () {
-    gRunSequence('clean', 'buildDist', 'injectDist');
+    gRunSequence('injectDist');
 });
 
 gulp.task('watch', function () {
