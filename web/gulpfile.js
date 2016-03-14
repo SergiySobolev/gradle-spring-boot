@@ -36,7 +36,6 @@ var options = {
     }
 };
 
-
 gulp.task('clean', function(){
     return gulp.src([paths.dist], {read:false})
         .pipe(gclean());
@@ -53,7 +52,7 @@ gulp.task('buildDist', [], function(){
 });
 
 gulp.task('lessCompile', [], function(){
-    return gulp.src(paths.srcLess+"*.less")
+    return gulp.src([paths.srcLess+"*.less", "!"+paths.srcLess+"variables.less"])
         .pipe(gLess())
         .pipe(gulp.dest(paths.distCss));
 });
