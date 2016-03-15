@@ -1,4 +1,4 @@
-package presentation.config;
+package main.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
