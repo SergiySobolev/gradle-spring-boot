@@ -7,6 +7,8 @@
   "dependencies": {
     "angular": "1.4.x",
     "angular-resource": "1.4.x",
+    "sockjs": "~0.3.4",
+    "stomp-websocket": "~2.3.4",
     "angular-chart":"https://github.com/jtblin/angular-chart.js.git"
   }
 }

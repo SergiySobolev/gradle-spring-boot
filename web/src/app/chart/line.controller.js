@@ -2,9 +2,11 @@ angular
     .module('app')
     .controller('LineController', LineController);
 
-function LineController(){
+LineController.$inject = ['ValuesService'];
+
+function LineController(ValuesService){
     var vm = this;
-    vm.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    vm.labels = ["January", "February", "March", "April", "May", "June", "July", "January", "February", "March", "April", "May", "June", "July"];
     vm.series = ['Series A', 'Series B'];
     vm.colors = ['Green', 'Dark Grey', 'Grey'];
     vm.data = [
@@ -14,5 +16,10 @@ function LineController(){
     vm.onClick = function (points, evt) {
         console.log(points, evt);
     };
+    ValuesService.connect();
+    ValuesService.receiveValue().then(null, null, function(value) {
+        vm.data[0].push(value.body/1);
+        vm.data[1].push(value.body/2);
+    });
     return this;
 }
