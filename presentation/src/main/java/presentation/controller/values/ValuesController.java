@@ -1,4 +1,4 @@
-package presentation.controller;
+package presentation.controller.values;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 
 @RestController
-public class SampleController {
+public class ValuesController {
 
-    private Logger log = LoggerFactory.getLogger(SampleController.class);
+    private Logger log = LoggerFactory.getLogger(ValuesController.class);
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -34,7 +34,7 @@ public class SampleController {
         Random r = new Random();
         Integer newValue = r.nextInt(100);
         simpMessagingTemplate.convertAndSend("/topic/value", newValue);
-        log.info("Send color: " + newValue);
+        log.info("Send value: " + newValue);
     }
 
 }
