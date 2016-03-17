@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,9 +25,10 @@ public class ValuesController {
         return "Greetings from Spring Boot!";
     }
 
-    @MessageMapping("/value")
-    public void receiveColor(Integer value){
+    @SubscribeMapping("/value")
+    public Integer receiveColor(Integer value){
         log.info("Value received = " + value);
+        return 2*value;
     }
 
     @Scheduled(fixedDelay = 1000)

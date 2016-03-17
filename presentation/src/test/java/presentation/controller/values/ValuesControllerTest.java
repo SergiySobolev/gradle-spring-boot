@@ -44,7 +44,7 @@ public class ValuesControllerTest {
     }
 
     @Test
-    public void executeTrade() throws Exception {
+    public void executeValue() throws Exception {
 
         byte[] payload = new ObjectMapper().writeValueAsBytes(123);
 
