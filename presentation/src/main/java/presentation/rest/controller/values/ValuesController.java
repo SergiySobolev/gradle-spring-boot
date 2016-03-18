@@ -33,9 +33,15 @@ public class ValuesController {
     }
 
     @SubscribeMapping("/value")
-    public Integer receiveColor(Integer value){
+    public ValuesResource receiveValue(Integer value){
         log.info("Value received = " + value);
-        return 2*value;
+        Random r = new Random();
+        Integer firstNewValue = r.nextInt(100);
+        Integer secondNewValue = r.nextInt(100);
+        ValuesResource valuesResource = new ValuesResource();
+        valuesResource.setDateTime(new DateTime());
+        valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
+        return valuesResource;
     }
 
     @Scheduled(fixedDelay = 1000)

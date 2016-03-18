@@ -3,6 +3,7 @@ package presentation.rest.controller.values;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.test.util.JsonPathExpectationsHelper;
 import presentation.IT;
 import presentation.rest.resources.ValuesResource;
 
@@ -70,6 +72,6 @@ public class ValuesControllerIT extends IT {
         assertEquals("/app/value", replyHeaders.getDestination());
 
         String json = new String((byte[]) reply.getPayload(), Charset.forName("UTF-8"));
-        assertThat(Integer.parseInt(json), equalTo(246));
+        new JsonPathExpectationsHelper("$.dateTime.era").assertValue(json, new DateTime().getEra());
     }
 }

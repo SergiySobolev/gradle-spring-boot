@@ -36,10 +36,4 @@ public class TestAppConfig implements ApplicationListener<ContextRefreshedEvent>
             }
         }
     }
-
-    @Bean
-    public DateTimeFormatter dateTimeFormatter(){
-        String PATTERN = "MM/dd/yyyy HH:mm:ss";
-        return DateTimeFormat.forPattern(PATTERN);
-    }
 }
