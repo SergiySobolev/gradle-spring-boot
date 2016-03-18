@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package presentation.controller;
+package presentation.rest.controller;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.AbstractSubscribableChannel;

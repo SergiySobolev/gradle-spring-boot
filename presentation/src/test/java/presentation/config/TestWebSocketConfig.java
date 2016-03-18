@@ -11,8 +11,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @Configuration
 @EnableScheduling
 @EnableWebSocketMessageBroker
-@ComponentScan(basePackages = "presentation.controller")
-public class TestWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer{
+@ComponentScan(basePackages = "presentation.rest")
+public class TestWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/value").withSockJS();

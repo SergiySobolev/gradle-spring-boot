@@ -1,7 +1,11 @@
 package presentation.config;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.messaging.MessageHandler;
@@ -12,7 +16,8 @@ import java.util.List;
 
 @Configuration
 @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-public class AppTestConfig implements ApplicationListener<ContextRefreshedEvent> {
+@ComponentScan("presentation")
+public class TestAppConfig implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private List<SubscribableChannel> channels;
@@ -30,5 +35,11 @@ public class AppTestConfig implements ApplicationListener<ContextRefreshedEvent>
                 channel.unsubscribe(handler);
             }
         }
+    }
+
+    @Bean
+    public DateTimeFormatter dateTimeFormatter(){
+        String PATTERN = "MM/dd/yyyy HH:mm:ss";
+        return DateTimeFormat.forPattern(PATTERN);
     }
 }

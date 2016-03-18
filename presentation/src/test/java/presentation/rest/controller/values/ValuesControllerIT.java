@@ -1,7 +1,10 @@
-package presentation.controller.values;
+package presentation.rest.controller.values;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Test;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -9,6 +12,7 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import presentation.IT;
+import presentation.rest.resources.ValuesResource;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -17,8 +21,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
@@ -31,9 +34,19 @@ public class ValuesControllerIT extends IT {
     public void testSendValues() throws InterruptedException {
         assertNotNull(simpMessagingTemplateSpy);
         Thread.sleep(3000);
-        verify(simpMessagingTemplateSpy, atLeast(2)).convertAndSend(eq("/topic/value"), anyInt());
+        BaseMatcher<ValuesResource> valuesResourceBaseMatcher = new BaseMatcher<ValuesResource>(){
+            @Override
+            public void describeTo(Description description) {
+                // nothing
+            }
+            @Override
+            public boolean matches(Object item) {
+                return item instanceof ValuesResource;
+            }
+        };
+        verify(simpMessagingTemplateSpy, atLeast(2))
+                .convertAndSend(eq("/topic/value"), argThat(valuesResourceBaseMatcher));
     }
-
 
     @Test
     public void getValue() throws Exception {

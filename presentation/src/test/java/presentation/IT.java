@@ -3,8 +3,11 @@ package presentation;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.messaging.support.AbstractSubscribableChannel;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import presentation.config.TestChannelInterceptor;
@@ -12,7 +15,7 @@ import presentation.config.TestChannelInterceptor;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(TestApplication.class)
 @WebAppConfiguration
-@org.springframework.boot.test.IntegrationTest("server.port:0")
+@IntegrationTest("server.port:0")
 abstract public class IT {
 
     @Autowired

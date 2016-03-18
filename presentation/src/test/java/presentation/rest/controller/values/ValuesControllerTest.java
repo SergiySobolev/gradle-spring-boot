@@ -1,4 +1,4 @@
-package presentation.controller.values;
+package presentation.rest.controller.values;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import org.springframework.messaging.simp.annotation.support.SimpAnnotationMetho
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
-import presentation.controller.TestMessageChannel;
+import presentation.rest.controller.TestMessageChannel;
 
 import java.util.Arrays;
 import java.util.HashMap;
