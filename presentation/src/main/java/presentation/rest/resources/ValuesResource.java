@@ -5,10 +5,11 @@ import org.joda.time.DateTime;
 import java.util.List;
 public class ValuesResource extends BaseResource {
 
-    private String company = "Test";
     private DateTime dateTime;
-    private List<Integer> values;
 
+    private String dateLabel;
+
+    private List<Integer> values;
 
     public DateTime getDateTime() {
         return dateTime;
@@ -16,6 +17,11 @@ public class ValuesResource extends BaseResource {
 
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
+        this.dateLabel = formatTime(dateTime);
+    }
+
+    public String getDateLabel() {
+        return dateLabel;
     }
 
     public List<Integer> getValues() {
@@ -24,14 +30,6 @@ public class ValuesResource extends BaseResource {
 
     public void setValues(List<Integer> values) {
         this.values = values;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
     }
 
     @Override

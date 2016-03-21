@@ -10,4 +10,9 @@ public class BaseResource extends ResourceSupport {
         String PATTERN = "MM/dd/yyyy HH:mm:ss";
         return DateTimeFormat.forPattern(PATTERN).print(dateTime);
     }
+
+    public String formatTime(DateTime dateTime) {
+        String PATTERN = "HH:mm:ss";
+        return DateTimeFormat.forPattern(PATTERN).print(dateTime);
+    }
 }

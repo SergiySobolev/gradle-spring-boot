@@ -4,22 +4,41 @@ angular
 
 LineController.$inject = ['ValuesService'];
 
-function LineController(ValuesService){
+function LineController(ValuesService) {
     var vm = this;
-    vm.labels = ["January", "February", "March", "April", "May", "June", "July", "January", "February", "March", "April", "May", "June", "July"];
+    vm.sampleCount = 10;
+    vm.labels = [];
     vm.series = ['Series A', 'Series B'];
     vm.colors = ['Green', 'Dark Grey', 'Grey'];
     vm.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
+        [],
+        []
     ];
+
     vm.onClick = function (points, evt) {
         console.log(points, evt);
     };
+
+    vm.addSample = function (sample) {
+        if (vm.data[0].length !== vm.labels.length) {
+            console.log('Different count of labels and values');
+        }
+        if (vm.sampleCount <= vm.labels.length) {
+            vm.labels.splice(0,1);
+            vm.data[0].splice(0,1);
+            vm.data[1].splice(0,1);
+        }
+        vm.data[0].push(sample.values[0]);
+        vm.data[1].push(sample.values[1]);
+        vm.labels.push(sample.dateLabel);
+    };
+
     ValuesService.connect();
-    ValuesService.receiveValue().then(null, null, function(value) {
-        vm.data[0].push(value.body/1);
-        vm.data[1].push(value.body/2);
+
+    ValuesService.receiveValue().then(null, null, function (data) {
+        var sample = JSON.parse(data.body);
+        vm.addSample(sample);
     });
+
     return this;
 }
