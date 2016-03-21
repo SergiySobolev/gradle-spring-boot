@@ -15,40 +15,46 @@ function LineController(ValuesService) {
         []
     ];
 
-    vm.onClick = function (points, evt) {
-        console.log(points, evt);
-    };
-
     vm.addSample = function (sample) {
         if (vm.data[0].length !== vm.labels.length) {
             console.log('Different count of labels and values');
         }
         if (vm.sampleCount <= vm.labels.length) {
-            vm.labels.splice(0,1);
-            vm.data[0].splice(0,1);
-            vm.data[1].splice(0,1);
+            vm.labels.splice(0, 1);
+            vm.data[0].splice(0, 1);
+            vm.data[1].splice(0, 1);
         }
         vm.data[0].push(sample.values[0]);
         vm.data[1].push(sample.values[1]);
         vm.labels.push(sample.dateLabel);
     };
 
-    ValuesService.connect();
-
-    var complete = function(data) {
-        console.log('Values receiving complete');
+    vm.connect = function () {
+        ValuesService.connect();
     };
 
-    var error = function(data) {
-        console.log('Error occurred while receiving values');
+    vm.disconnect = function () {
+        ValuesService.disconnect();
     };
 
-    var progress = function(data) {
+    vm.complete = function () {
+        ValuesService.complete();
+    };
+
+    var resolve = function (resolve) {
+        console.log('Receiving values stopped due to: ' + resolve);
+    };
+
+    var reject = function (reject) {
+        console.log('Receiving values stopped due to: ' + reject);
+    };
+
+    var progress = function (data) {
         var sample = JSON.parse(data.body);
         vm.addSample(sample);
     };
 
-    ValuesService.receiveValue().then(complete, error, progress);
+    ValuesService.receiveValue().then(resolve, reject, progress);
 
     return this;
 }

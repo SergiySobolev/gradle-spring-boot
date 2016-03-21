@@ -10,6 +10,7 @@ function ValuesService($q) {
 
     this.connect = connect;
     this.disconnect = disconnect;
+    this.complete = complete;
     this.receiveValue = receiveValue;
 
     function startListeners() {
@@ -27,8 +28,15 @@ function ValuesService($q) {
     function disconnect() {
         if (stompClient != null) {
             stompClient.disconnect();
+            valuesListener.reject("Disconnected from values source");
         }
-        console.log("Disconnected");
+    }
+
+    function complete() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+            valuesListener.resolve("All values received");
+        }
     }
 
     function receiveValue() {
