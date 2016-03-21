@@ -35,10 +35,20 @@ function LineController(ValuesService) {
 
     ValuesService.connect();
 
-    ValuesService.receiveValue().then(null, null, function (data) {
+    var complete = function(data) {
+        console.log('Values receiving complete');
+    };
+
+    var error = function(data) {
+        console.log('Error occurred while receiving values');
+    };
+
+    var progress = function(data) {
         var sample = JSON.parse(data.body);
         vm.addSample(sample);
-    });
+    };
+
+    ValuesService.receiveValue().then(complete, error, progress);
 
     return this;
 }
