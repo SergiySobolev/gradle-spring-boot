@@ -9,11 +9,19 @@ function LineController(ValuesService) {
     vm.sampleCount = 10;
     vm.labels = [];
     vm.series = ['Series A', 'Series B'];
-    vm.colors = ['Green', 'Dark Grey', 'Grey'];
     vm.data = [
         [],
         []
     ];
+
+    var clearData = function() {
+        vm.labels.splice(0, vm.labels.length);
+        vm.data[0].splice(0, vm.data[0].length);
+        vm.data[1].splice(0, vm.data[1].length);
+        vm.data[0].push(0);
+        vm.data[1].push(0);
+        vm.labels.push(0);
+    };
 
     vm.addSample = function (sample) {
         if (vm.data[0].length !== vm.labels.length) {
@@ -29,18 +37,6 @@ function LineController(ValuesService) {
         vm.labels.push(sample.dateLabel);
     };
 
-    vm.connect = function () {
-        ValuesService.connect();
-    };
-
-    vm.disconnect = function () {
-        ValuesService.disconnect();
-    };
-
-    vm.complete = function () {
-        ValuesService.complete();
-    };
-
     var resolve = function (resolve) {
         console.log('Receiving values stopped due to: ' + resolve);
     };
@@ -54,7 +50,19 @@ function LineController(ValuesService) {
         vm.addSample(sample);
     };
 
-    ValuesService.receiveValue().then(resolve, reject, progress);
+    vm.connect = function () {
+        ValuesService.connect();
+        ValuesService.receiveValue().then(resolve, reject, progress);
+    };
+
+    vm.disconnect = function () {
+        ValuesService.disconnect();
+    };
+
+    vm.complete = function () {
+        ValuesService.complete();
+        clearData();
+    };
 
     return this;
 }

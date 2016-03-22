@@ -29,7 +29,7 @@ public class ValuesController {
         return "Greetings from Spring Boot!";
     }
 
-    @SubscribeMapping("/value")
+    @SubscribeMapping("/getvalue")
     public ValuesResource receiveValue(Integer value){
         log.info("Value received = " + value);
         Random r = new Random();

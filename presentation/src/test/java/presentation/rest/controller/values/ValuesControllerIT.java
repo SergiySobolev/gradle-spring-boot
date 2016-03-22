@@ -55,12 +55,12 @@ public class ValuesControllerIT extends IT {
 
         StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SUBSCRIBE);
         headers.setSubscriptionId("0");
-        headers.setDestination("/app/value");
+        headers.setDestination("/app/getvalue");
         headers.setSessionId("0");
         headers.setSessionAttributes(new HashMap<>());
         Message<byte[]> message = MessageBuilder.createMessage(new ObjectMapper().writeValueAsBytes(123), headers.getMessageHeaders());
 
-        this.clientOutboundChannelInterceptor.setIncludedDestinations("/app/value");
+        this.clientOutboundChannelInterceptor.setIncludedDestinations("/app/getvalue");
         this.clientInboundChannel.send(message);
 
         Message<?> reply = this.clientOutboundChannelInterceptor.awaitMessage(5);
@@ -69,7 +69,7 @@ public class ValuesControllerIT extends IT {
         StompHeaderAccessor replyHeaders = StompHeaderAccessor.wrap(reply);
         assertEquals("0", replyHeaders.getSessionId());
         assertEquals("0", replyHeaders.getSubscriptionId());
-        assertEquals("/app/value", replyHeaders.getDestination());
+        assertEquals("/app/getvalue", replyHeaders.getDestination());
 
         String json = new String((byte[]) reply.getPayload(), Charset.forName("UTF-8"));
         new JsonPathExpectationsHelper("$.dateTime.era").assertValue(json, new DateTime().getEra());

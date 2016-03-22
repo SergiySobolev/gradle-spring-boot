@@ -29,6 +29,7 @@ function ValuesService($q) {
         if (stompClient != null) {
             stompClient.disconnect();
             valuesListener.reject("Disconnected from values source");
+            valuesListener = $q.defer();
         }
     }
 
@@ -36,6 +37,7 @@ function ValuesService($q) {
         if (stompClient != null) {
             stompClient.disconnect();
             valuesListener.resolve("All values received");
+            valuesListener = $q.defer();
         }
     }
 
