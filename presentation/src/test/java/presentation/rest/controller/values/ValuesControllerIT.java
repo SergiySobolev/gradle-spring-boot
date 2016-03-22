@@ -14,6 +14,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.util.JsonPathExpectationsHelper;
 import presentation.IT;
+import presentation.config.TestPrincipal;
 import presentation.rest.resources.ValuesResource;
 
 import java.nio.charset.Charset;
@@ -47,7 +48,7 @@ public class ValuesControllerIT extends IT {
             }
         };
         verify(simpMessagingTemplateSpy, atLeast(2))
-                .convertAndSend(eq("/topic/value"), argThat(valuesResourceBaseMatcher));
+                .convertAndSend(eq("/topic/sequencevalue"), argThat(valuesResourceBaseMatcher));
     }
 
     @Test
@@ -73,5 +74,27 @@ public class ValuesControllerIT extends IT {
 
         String json = new String((byte[]) reply.getPayload(), Charset.forName("UTF-8"));
         new JsonPathExpectationsHelper("$.dateTime.era").assertValue(json, new DateTime().getEra());
+    }
+
+    @Test
+    public void getValue2() throws Exception {
+
+        StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
+        headers.setDestination("/app/getsinglevalue");
+        headers.setSessionId("0");
+        headers.setSessionAttributes(new HashMap<>());
+        headers.setUser(new TestPrincipal("fabrice"));
+        Message<byte[]> message = MessageBuilder.createMessage(
+                            new ObjectMapper().writeValueAsBytes(123), headers.getMessageHeaders());
+        this.clientInboundChannel.send(message);
+        this.brokerChannelInterceptor.setIncludedDestinations("/topic/singlevalue");
+        Message<?> positionUpdate = this.brokerChannelInterceptor.awaitMessage(5);
+        assertNotNull(positionUpdate);
+
+        StompHeaderAccessor positionUpdateHeaders = StompHeaderAccessor.wrap(positionUpdate);
+
+        String json = new String((byte[]) positionUpdate.getPayload(), Charset.forName("UTF-8"));
+        new JsonPathExpectationsHelper("$.dateTime.era").assertValue(json, new DateTime().getEra());
+        new JsonPathExpectationsHelper("$.user").assertValue(json, "fabrice");
     }
 }

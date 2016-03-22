@@ -52,7 +52,7 @@ function LineController(ValuesService) {
 
     vm.connect = function () {
         ValuesService.connect();
-        ValuesService.receiveValue().then(resolve, reject, progress);
+        ValuesService.receiveValueSequence().then(resolve, reject, progress);
     };
 
     vm.disconnect = function () {
@@ -62,6 +62,10 @@ function LineController(ValuesService) {
     vm.complete = function () {
         ValuesService.complete();
         clearData();
+    };
+
+    vm.getvalue = function  () {
+
     };
 
     return this;

@@ -6,21 +6,21 @@ ValuesService.$inject = ['$q'];
 
 function ValuesService($q) {
     var stompClient = null;
-    var valuesListener = $q.defer();
+    var valuesSequenceListener = $q.defer();
 
     this.connect = connect;
     this.disconnect = disconnect;
     this.complete = complete;
-    this.receiveValue = receiveValue;
+    this.receiveValueSequence = receiveValueSequence;
 
     function startListeners() {
-        stompClient.subscribe('/topic/value', function(value) {
-            valuesListener.notify(value);
+        stompClient.subscribe('/topic/sequencevalue', function(value) {
+            valuesSequenceListener.notify(value);
         });
     }
 
     function connect() {
-        var socket = new SockJS('/value');
+        var socket = new SockJS('/sequencevalue');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, startListeners);
     }
@@ -28,21 +28,21 @@ function ValuesService($q) {
     function disconnect() {
         if (stompClient != null) {
             stompClient.disconnect();
-            valuesListener.reject("Disconnected from values source");
-            valuesListener = $q.defer();
+            valuesSequenceListener.reject("Disconnected from values source");
+            valuesSequenceListener = $q.defer();
         }
     }
 
     function complete() {
         if (stompClient != null) {
             stompClient.disconnect();
-            valuesListener.resolve("All values received");
-            valuesListener = $q.defer();
+            valuesSequenceListener.resolve("All values received");
+            valuesSequenceListener = $q.defer();
         }
     }
 
-    function receiveValue() {
-        return valuesListener.promise;
+    function receiveValueSequence() {
+        return valuesSequenceListener.promise;
     }
 
 }
