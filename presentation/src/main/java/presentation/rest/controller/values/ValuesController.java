@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -44,15 +45,15 @@ public class ValuesController {
         return valuesResource;
     }
 
-    @MessageMapping("/getsinglevalue")
+    @MessageMapping("/app/chat/getsinglevalue")
     @SendTo("/topic/singlevalue")
-    public ValuesResource prepareAndSendSingleValue(Integer value, Principal principal) {
-        log.info("Value received = " + value);
+    public ValuesResource prepareAndSendSingleValue() {
+      //  log.info("Value received = " + value);
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);
         Integer secondNewValue = r.nextInt(100);
         ValuesResource valuesResource = new ValuesResource();
-        valuesResource.setUser(principal.getName());
+     //   valuesResource.setUser(principal.getName());
         valuesResource.setDateTime(new DateTime());
         valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
         return valuesResource;

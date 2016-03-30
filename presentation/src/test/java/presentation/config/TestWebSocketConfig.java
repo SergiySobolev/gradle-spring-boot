@@ -17,7 +17,7 @@ public class TestWebSocketConfig extends AbstractWebSocketMessageBrokerConfigure
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/singlevalue").withSockJS();
-      //  registry.addEndpoint("/sequencevalue").withSockJS();
+        registry.addEndpoint("/sequencevalue").withSockJS();
     }
 
     @Override

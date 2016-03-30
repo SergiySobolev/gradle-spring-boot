@@ -64,8 +64,8 @@ function LineController(ValuesService) {
         clearData();
     };
 
-    vm.getvalue = function  () {
-
+    vm.getSingleValue = function  () {
+        ValuesService.getSingleValue();
     };
 
     return this;

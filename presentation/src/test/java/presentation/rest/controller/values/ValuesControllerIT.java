@@ -80,12 +80,12 @@ public class ValuesControllerIT extends IT {
     public void getValue2() throws Exception {
 
         StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
-        headers.setDestination("/app/getsinglevalue");
+        headers.setDestination("/app/chat/getsinglevalue");
         headers.setSessionId("0");
         headers.setSessionAttributes(new HashMap<>());
-        headers.setUser(new TestPrincipal("fabrice"));
+       // headers.setUser(new TestPrincipal("fabrice"));
         Message<byte[]> message = MessageBuilder.createMessage(
-                            new ObjectMapper().writeValueAsBytes(123), headers.getMessageHeaders());
+                            new ObjectMapper().writeValueAsBytes(null), headers.getMessageHeaders());
         this.clientInboundChannel.send(message);
         this.brokerChannelInterceptor.setIncludedDestinations("/topic/singlevalue");
         Message<?> positionUpdate = this.brokerChannelInterceptor.awaitMessage(5);
@@ -95,6 +95,6 @@ public class ValuesControllerIT extends IT {
 
         String json = new String((byte[]) positionUpdate.getPayload(), Charset.forName("UTF-8"));
         new JsonPathExpectationsHelper("$.dateTime.era").assertValue(json, new DateTime().getEra());
-        new JsonPathExpectationsHelper("$.user").assertValue(json, "fabrice");
+     //   new JsonPathExpectationsHelper("$.user").assertValue(json, "fabrice");
     }
 }
