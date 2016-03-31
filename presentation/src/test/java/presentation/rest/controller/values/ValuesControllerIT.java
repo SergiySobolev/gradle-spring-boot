@@ -12,7 +12,7 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.util.JsonPathExpectationsHelper;
-import presentation.IT;
+import presentation.PresentationIT;
 import presentation.rest.resources.MyMessage;
 import presentation.rest.resources.ValuesResource;
 
@@ -21,12 +21,8 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
 
-public class ValuesControllerIT extends IT {
+public class ValuesControllerIT extends PresentationIT {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplateSpy;

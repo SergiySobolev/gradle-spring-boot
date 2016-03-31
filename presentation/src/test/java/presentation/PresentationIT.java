@@ -14,7 +14,7 @@ import presentation.config.TestChannelInterceptor;
 @SpringApplicationConfiguration(PresentationTestApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-abstract public class IT {
+abstract public class PresentationIT {
 
     @Autowired
     protected AbstractSubscribableChannel clientInboundChannel;
