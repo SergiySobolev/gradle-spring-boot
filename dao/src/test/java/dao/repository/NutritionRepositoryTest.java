@@ -5,7 +5,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 
 public class NutritionRepositoryTest extends DaoIT{
@@ -25,5 +26,10 @@ public class NutritionRepositoryTest extends DaoIT{
         assertThat(nutritionRepository.getNutritionCount(), equalTo(2L));
     }
 
+    @Test
+    public void testInsertNutritionAndUnit() throws Exception {
+        nutritionRepository.insertNutritionAndUnit();
+        assertThat(nutritionRepository.getNutritionCount(), equalTo(1L));
+    }
 
 }

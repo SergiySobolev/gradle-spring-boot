@@ -1,6 +1,8 @@
 package dao.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedNativeQuery(name = "UnitEntity.insertUnit",
@@ -18,6 +20,9 @@ public class UnitEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "units")
+    private Set<NutritionEntity> nutritions = new HashSet<>(0);
 
     public Long getId() {
         return id;

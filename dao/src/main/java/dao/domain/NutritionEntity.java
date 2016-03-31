@@ -1,6 +1,8 @@
 package dao.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedNativeQuery(name="NutritionEntity.insertNutrition",
@@ -17,6 +19,14 @@ public class NutritionEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "nutrition_unit",
+            joinColumns = {@JoinColumn(name = "nutrition_ID", nullable = false, updatable = false)},
+            inverseJoinColumns = { @JoinColumn(name = "unit_id", nullable = false, updatable = false) }
+    )
+    private Set<UnitEntity> units = new HashSet<>(0);
+
 
     public Long getId() {
         return id;
@@ -40,5 +50,13 @@ public class NutritionEntity extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<UnitEntity> getUnits() {
+        return units;
+    }
+
+    public void setUnits(Set<UnitEntity> units) {
+        this.units = units;
     }
 }
