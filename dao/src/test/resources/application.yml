@@ -1,6 +1,8 @@
 hibernate:
- dialect: org.hibernate.dialect.H2Dialect
- show_sql: true
+  dialect: org.hibernate.dialect.H2Dialect
+  show_sql: true
+  hbm2ddl:
+    auto: create
 entitymanager:
   packages:
     to:

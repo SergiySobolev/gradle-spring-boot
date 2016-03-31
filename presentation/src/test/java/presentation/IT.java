@@ -19,8 +19,7 @@ abstract public class IT {
     @Autowired
     protected AbstractSubscribableChannel clientInboundChannel;
 
-    @Autowired
-    protected AbstractSubscribableChannel clientOutboundChannel;
+    @Autowired    protected AbstractSubscribableChannel clientOutboundChannel;
 
     @Autowired
     protected AbstractSubscribableChannel brokerChannel;

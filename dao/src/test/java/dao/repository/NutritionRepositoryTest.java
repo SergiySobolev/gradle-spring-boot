@@ -1,32 +1,28 @@
 package dao.repository;
 
-import dao.DaoTestApplication;
+import dao.DaoIT;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(DaoTestApplication.class)
-public class NutritionRepositoryTest {
+
+public class NutritionRepositoryTest extends DaoIT{
 
     @Autowired
-    private NutritionRepository repository;
+    private NutritionRepository nutritionRepository;
 
     @Test
     public void baseTest(){
-        assertNotNull(repository);
+        assertNotNull(nutritionRepository);
     }
 
     @Test
     public void testGetNutritionCount() throws Exception {
-        assertThat(repository.getNutritionCount(), equalTo(2L));
+        nutritionRepository.insertNutrition(1L,"buckwheat","buckwheat");
+        nutritionRepository.insertNutrition(2L,"'rice'","rice");
+        assertThat(nutritionRepository.getNutritionCount(), equalTo(2L));
     }
 
 

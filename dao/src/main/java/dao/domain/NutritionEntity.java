@@ -1,11 +1,10 @@
 package dao.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
+@NamedNativeQuery(name="NutritionEntity.insertNutrition",
+        query = "Insert into Nutrition(id, code, name) values (:id, :code, :name )")
 @Table(name = "nutrition")
 public class NutritionEntity extends BaseEntity {
 
