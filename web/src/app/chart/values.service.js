@@ -59,12 +59,16 @@ function ValuesService($q) {
     }
 
     function getSingleValue() {
-        singleValueStompClient.client = new SockJS("/chat");
+        singleValueStompClient.client = new SockJS("/singlevalue");
         singleValueStompClient.stomp = Stomp.over(singleValueStompClient.client);
-        singleValueStompClient.stomp.connect({}, startSingleValueListener);
-        singleValueStompClient.stomp.send("/app/chat/getsinglevalue", {
+        singleValueStompClient.stomp.connect({}, startSingleValueListener, null);
+        singleValueStompClient.stomp.send("/app/singlevalue", {
             priority: 9
-        });
+        }, JSON.stringify({
+            message: "mymessage",
+            id: 1,
+            user: "myprincipal"
+        }));
     }
 
     function receiveValueSequence() {

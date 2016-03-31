@@ -18,7 +18,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/singlevalue").withSockJS();
         registry.addEndpoint("/sequencevalue").withSockJS();
-        registry.addEndpoint("/chat").withSockJS();
     }
 
     @Override

@@ -14,13 +14,13 @@ import presentation.config.TestWebSocketConfig;
 @EnableAutoConfiguration
 @ComponentScan
 @Import(TestWebSocketConfig.class)
-public class TestApplication extends WebMvcConfigurerAdapter {
+public class PresentationTestApplication extends WebMvcConfigurerAdapter {
 
     @Autowired
     protected AbstractSubscribableChannel clientInboundChannel;
 
     public static void main(String[] args) {
-        SpringApplication.run(TestApplication.class, args);
+        SpringApplication.run(PresentationTestApplication.class, args);
     }
 
 }

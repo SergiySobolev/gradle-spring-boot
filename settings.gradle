@@ -1,4 +1,5 @@
 rootProject.name = 'gradle-spring-boot'
 include 'presentation'
 include 'web'
+include 'dao'
 

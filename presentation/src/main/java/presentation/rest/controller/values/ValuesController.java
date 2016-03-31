@@ -12,9 +12,9 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import presentation.rest.resources.MyMessage;
 import presentation.rest.resources.ValuesResource;
 
-import java.security.Principal;
 import java.util.Random;
 
 import static java.util.stream.Collectors.toList;
@@ -45,10 +45,10 @@ public class ValuesController {
         return valuesResource;
     }
 
-    @MessageMapping("/app/chat/getsinglevalue")
+    @MessageMapping("/singlevalue")
     @SendTo("/topic/singlevalue")
-    public ValuesResource prepareAndSendSingleValue() {
-      //  log.info("Value received = " + value);
+    public ValuesResource prepareAndSendSingleValue(MyMessage message) {
+        //log.info("Value received = " + value);
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);
         Integer secondNewValue = r.nextInt(100);
@@ -59,7 +59,7 @@ public class ValuesController {
         return valuesResource;
     }
 
-    @Scheduled(fixedDelay = 1000)
+   // @Scheduled(fixedDelay = 1000)
     private void newValue(){
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);

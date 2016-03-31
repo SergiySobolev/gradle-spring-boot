@@ -1,0 +1,7 @@
+hibernate:
+ dialect: org.hibernate.dialect.H2Dialect
+ show_sql: true
+entitymanager:
+  packages:
+    to:
+      scan: dao.domain
