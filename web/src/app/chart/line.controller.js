@@ -51,8 +51,9 @@ function LineController(ValuesService) {
     };
 
     vm.connect = function () {
-        ValuesService.connect();
+        ValuesService.connectToValuesClient();
         ValuesService.receiveValueSequence().then(resolve, reject, progress);
+        ValuesService.receiveSingleValue().then(resolve, reject, progress);
     };
 
     vm.disconnect = function () {

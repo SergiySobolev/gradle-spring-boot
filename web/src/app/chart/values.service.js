@@ -5,74 +5,76 @@ angular
 ValuesService.$inject = ['$q'];
 
 function ValuesService($q) {
-    var stompClient = null;
-    var valuesSequenceListener = $q.defer();
-    var singleValueStompClient = {
+    var valueStompClient = {
         client: null,
         stomp: null
     };
     var singleValueListener = $q.defer();
-    this.connect = connect;
+    var valuesSequenceListener = $q.defer();
+    this.connectToValuesClient = connectToValuesClient;
     this.disconnect = disconnect;
     this.complete = complete;
     this.receiveValueSequence = receiveValueSequence;
+    this.receiveSingleValue = receiveSingleValue;
     this.getSingleValue = getSingleValue;
 
-    function startListeners() {
-        stompClient.subscribe('/topic/sequencevalue', function (value) {
+    function startSingleValueListeners() {
+        valueStompClient.client.subscribe('/topic/singlevalue', function (value) {
+            singleValueListener.notify(value);
+        });
+        valueStompClient.client.subscribe('/topic/sequencevalue', function (value) {
             valuesSequenceListener.notify(value);
         });
     }
 
-    function startSingleValueListener() {
-        //singleValueStompClient.stomp.subscribe('/topic/singlevalue', function (value) {
-        //    singleValueListener.notify(value);
-        //});
-    }
+    var connectCallback = function() {
+        console.log("Connection to WS successful");
+        startSingleValueListeners();
+    };
 
-    function connect() {
-        var socket = new SockJS('/sequencevalue');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, startListeners);
+    var errorCallback = function(error) {
+        console.log(error.headers.message);
+    };
+
+    function connectToValuesClient() {
+        valueStompClient.stomp = new SockJS('ws');
+        valueStompClient.client = Stomp.over(valueStompClient.stomp);
+        valueStompClient.client.connect("guest", "guest", connectCallback, errorCallback);
     }
 
     function disconnect() {
-        if (stompClient != null) {
-            stompClient.disconnect();
+        if (valueStompClient.client != null) {
+            valueStompClient.client.disconnect();
             valuesSequenceListener.reject("Disconnected from values source");
             valuesSequenceListener = $q.defer();
         }
     }
 
     function complete() {
-        if (stompClient != null) {
-            stompClient.disconnect();
+        if (valueStompClient.client != null) {
+            valueStompClient.client.disconnect();
             valuesSequenceListener.resolve("All values received");
             valuesSequenceListener = $q.defer();
         }
     }
 
-    function connectIfNotConnected() {
-        if(stompClient == null){
-            connect();
-        }
-    }
-
     function getSingleValue() {
-        singleValueStompClient.client = new SockJS("/singlevalue");
-        singleValueStompClient.stomp = Stomp.over(singleValueStompClient.client);
-        singleValueStompClient.stomp.connect({}, startSingleValueListener, null);
-        singleValueStompClient.stomp.send("/app/singlevalue", {
-            priority: 9
-        }, JSON.stringify({
-            message: "mymessage",
-            id: 1,
-            user: "myprincipal"
-        }));
+        //var jsonStr = JSON.stringify({
+        //    message: "mymessage",
+        //    id: 1,
+        //    user: "myprincipal"
+        //});
+        valueStompClient.client.send("/app/singlevalue");
     }
 
     function receiveValueSequence() {
         return valuesSequenceListener.promise;
     }
+
+    function receiveSingleValue() {
+        return singleValueListener.promise;
+    }
+
+
 
 }

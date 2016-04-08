@@ -47,19 +47,17 @@ public class ValuesController {
 
     @MessageMapping("/singlevalue")
     @SendTo("/topic/singlevalue")
-    public ValuesResource prepareAndSendSingleValue(MyMessage message) {
-        //log.info("Value received = " + value);
+    public ValuesResource prepareAndSendSingleValue() {
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);
         Integer secondNewValue = r.nextInt(100);
         ValuesResource valuesResource = new ValuesResource();
-     //   valuesResource.setUser(principal.getName());
         valuesResource.setDateTime(new DateTime());
         valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
         return valuesResource;
     }
 
-   // @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 5000)
     private void newValue(){
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);

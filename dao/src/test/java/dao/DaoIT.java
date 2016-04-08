@@ -10,5 +10,5 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringApplicationConfiguration(DaoTestApplication.class)
 @Transactional
 @Rollback(true)
-public class DaoIT {
+public abstract class DaoIT {
 }
