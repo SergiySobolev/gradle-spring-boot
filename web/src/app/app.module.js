@@ -1,2 +1,2 @@
 angular
-    .module('app', ['chart.js']);
+    .module('app', ['chart.js', 'notification']);
