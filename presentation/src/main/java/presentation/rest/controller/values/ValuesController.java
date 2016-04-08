@@ -36,18 +36,23 @@ public class ValuesController {
     @SubscribeMapping("/getvalue")
     public ValuesResource receiveValue(Integer value){
         log.info("Value received = " + value);
-        Random r = new Random();
-        Integer firstNewValue = r.nextInt(100);
-        Integer secondNewValue = r.nextInt(100);
-        ValuesResource valuesResource = new ValuesResource();
-        valuesResource.setDateTime(new DateTime());
-        valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
-        return valuesResource;
+        return getValuesResource();
     }
 
     @MessageMapping("/singlevalue")
     @SendTo("/topic/singlevalue")
     public ValuesResource prepareAndSendSingleValue() {
+        return getValuesResource();
+    }
+
+    @Scheduled(fixedDelay = 5000)
+    private void newSequenceValue(){
+        ValuesResource valuesResource = getValuesResource();
+        simpMessagingTemplate.convertAndSend("/topic/sequencevalue", valuesResource);
+        log.info("Send value: " + valuesResource.toString());
+    }
+
+    private ValuesResource getValuesResource() {
         Random r = new Random();
         Integer firstNewValue = r.nextInt(100);
         Integer secondNewValue = r.nextInt(100);
@@ -55,18 +60,6 @@ public class ValuesController {
         valuesResource.setDateTime(new DateTime());
         valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
         return valuesResource;
-    }
-
-    @Scheduled(fixedDelay = 5000)
-    private void newValue(){
-        Random r = new Random();
-        Integer firstNewValue = r.nextInt(100);
-        Integer secondNewValue = r.nextInt(100);
-        ValuesResource valuesResource = new ValuesResource();
-        valuesResource.setDateTime(new DateTime());
-        valuesResource.setValues(of(firstNewValue, secondNewValue).collect(toList()));
-        simpMessagingTemplate.convertAndSend("/topic/sequencevalue", valuesResource);
-        log.info("Send value: " + valuesResource.toString());
     }
 
 }
