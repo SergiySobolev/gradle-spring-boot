@@ -2,18 +2,23 @@ angular
     .module('notification')
     .service('NotificationBarService', NotificationBarService);
 
-NotificationBarService.$inject = ['$timeout, $compile, $rootScope'];
+NotificationBarService.$inject = ['$rootScope'];
 
-function NotificationBarService() {
+function NotificationBarService($rootScope) {
+
     var domElement;
 
-    this.PostMessage = function(message, timeToLinger, cssToApply) {
+    this.postMessage = PostMessage;
+
+    this.registerDOM = RegisterDOM;
+
+    function PostMessage(message, timeToLinger, cssToApply) {
         var template = angular.element("<div class=\"notification-message " + (cssToApply || "") +  "\" time=\""+timeToLinger+"\">"+message+"</div>");
         var newScope = $rootScope.$new();
         domElement.append($compile(template)(newScope));
-    };
+    }
 
-    this.RegisterDOM = function(element) {
+    function RegisterDOM(element) {
         domElement = element;
-    };
+    }
 }

@@ -2,9 +2,9 @@ angular
     .module('app')
     .controller('LineController', LineController);
 
-LineController.$inject = ['ValuesService'];
+LineController.$inject = ['ValuesService', 'OneSecondNotificationBarService'];
 
-function LineController(ValuesService) {
+function LineController(ValuesService, OneSecondNotificationBarService) {
     var vm = this;
     vm.sampleCount = 10;
     vm.labels = [];
@@ -48,6 +48,7 @@ function LineController(ValuesService) {
     var progress = function (data) {
         var sample = JSON.parse(data.body);
         vm.addSample(sample);
+        vm.postMessage("Value received!")
     };
 
     vm.connect = function () {
@@ -67,6 +68,10 @@ function LineController(ValuesService) {
 
     vm.getSingleValue = function  () {
         ValuesService.getSingleValue();
+    };
+
+    vm.postMessage = function (message) {
+        OneSecondNotificationBarService.postMessage(message, null);
     };
 
     return this;
